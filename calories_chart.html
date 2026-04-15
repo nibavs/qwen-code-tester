@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>График потребленных калорий за неделю</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        canvas {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Потребленные калории за неделю</h1>
+        <canvas id="caloriesChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('caloriesChart').getContext('2d');
+        
+        // Исходные данные
+        const caloriesData = [2100, 2225, 1500, 3000, 2650, 2200, 1900];
+        const days = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'];
+        
+        // Расчет статистики
+        const totalCalories = caloriesData.reduce((a, b) => a + b, 0);
+        const avgCalories = (totalCalories / caloriesData.length).toFixed(0);
+        const maxCalories = Math.max(...caloriesData);
+        const minCalories = Math.min(...caloriesData);
+        
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: days,
+                datasets: [{
+                    label: 'Калории (ккал)',
+                    data: caloriesData,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(153, 102, 255, 0.7)',
+                        'rgba(255, 159, 64, 0.7)',
+                        'rgba(199, 199, 199, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(199, 199, 199, 1)'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 5,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        display: true,
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            afterLabel: function(context) {
+                                const value = context.raw;
+                                return `Отклонение от среднего: ${value - avgCalories} ккал`;
+                            }
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: `Неделя: Всего ${totalCalories} ккал | Среднее: ${avgCalories} ккал | Мин: ${minCalories} | Макс: ${maxCalories}`,
+                        font: {
+                            size: 14
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 20
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        min: 1000,
+                        title: {
+                            display: true,
+                            text: 'Калории (ккал)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'День недели'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
