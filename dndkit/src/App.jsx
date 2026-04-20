@@ -15,8 +15,8 @@ const initialFoodItems = [
 ]
 
 // Draggable Food Item Component
-function DraggableFood({ id, name, calories, onRemove }) {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+function DraggableFood({ id, name, calories, onRemove, showRemoveButton = false }) {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: id,
   })
 
@@ -27,7 +27,7 @@ function DraggableFood({ id, name, calories, onRemove }) {
     : undefined
 
   const handleClick = (e) => {
-    if (onRemove && !isDragging) {
+    if (onRemove) {
       e.stopPropagation()
       onRemove(id)
     }
@@ -40,10 +40,18 @@ function DraggableFood({ id, name, calories, onRemove }) {
       {...listeners}
       {...attributes}
       className="draggable-item"
-      onClick={handleClick}
     >
       <span className="food-name">{name}</span>
       <span className="food-calories">{calories} cal</span>
+      {showRemoveButton && (
+        <button 
+          className="remove-button"
+          onClick={handleClick}
+          title="Remove from dish"
+        >
+          ×
+        </button>
+      )}
     </div>
   )
 }
@@ -139,6 +147,7 @@ function App() {
                   name={item.name}
                   calories={item.calories}
                   onRemove={handleRemoveFromDish}
+                  showRemoveButton={true}
                 />
               ))}
             </DroppableContainer>
