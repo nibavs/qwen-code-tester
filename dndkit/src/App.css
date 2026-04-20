@@ -122,3 +122,31 @@ h1 {
 .droppable-container .draggable-item {
   background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
 }
+
+.remove-button {
+  background: rgba(255, 255, 255, 0.9);
+  color: #d32f2f;
+  border: none;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.remove-button:hover {
+  background: #d32f2f;
+  color: white;
+  transform: scale(1.1);
+}
+
+.remove-button:active {
+  transform: scale(0.95);
+}
