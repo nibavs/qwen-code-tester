@@ -2,40 +2,28 @@
 # Dependencies
 node_modules/
 
-# Build outputs
-dist/
-build/
-coverage/
-htmlcov/
-
-# Environment variables
+# Environment
 .env
 .env.local
-.env.*
+*.env.*
 
-# IDE files
-.vscode/
-.idea/
-*.swp
-*.swo
+# Logs and temp files
+*.log
 *.tmp
 
-# Logs
-*.log
+# Editors
+.vscode/
+.idea/
 
-# Python cache (if any Python files exist in project)
+# Python
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
-
-# Coverage reports
-.coverage
-
-# OS generated files
-.DS_Store
-Thumbs.db
-
-# Vite specific
-!.vite/deps
+.Python
+venv/
+.venv/
+.env
+.env.local
+.env.*
 ```
