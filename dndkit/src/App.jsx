@@ -15,7 +15,7 @@ const initialFoodItems = [
 ]
 
 // Draggable Food Item Component
-function DraggableFood({ id, name, calories }) {
+function DraggableFood({ id, name, calories, onRemove }) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: id,
   })
@@ -33,6 +33,7 @@ function DraggableFood({ id, name, calories }) {
       {...listeners}
       {...attributes}
       className="draggable-item"
+      onClick={onRemove ? (e) => { e.stopPropagation(); onRemove(id); } : undefined}
     >
       <span className="food-name">{name}</span>
       <span className="food-calories">{calories} cal</span>
@@ -87,6 +88,17 @@ function App() {
     }
   }
 
+  const handleRemoveFromDish = (itemId) => {
+    const item = dishItems.find((dishItem) => dishItem.id === itemId)
+    
+    if (item) {
+      // Remove from dish and add back to available items
+      setDishItems(dishItems.filter((dishItem) => dishItem.id !== itemId))
+      setAvailableItems([...availableItems, item])
+      setTotalCalories(totalCalories - item.calories)
+    }
+  }
+
   return (
     <div className="app-container">
       <h1>Calorie Tracker with Drag & Drop</h1>
@@ -119,6 +131,7 @@ function App() {
                   id={item.id}
                   name={item.name}
                   calories={item.calories}
+                  onRemove={handleRemoveFromDish}
                 />
               ))}
             </DroppableContainer>
